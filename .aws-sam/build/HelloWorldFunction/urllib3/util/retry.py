@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import email
 import logging
-import random
 import re
 import time
 import typing
@@ -19,6 +18,7 @@ from ..exceptions import (
     ResponseError,
 )
 from .util import reraise
+import secrets
 
 if typing.TYPE_CHECKING:
     from ..connectionpool import ConnectionPool
@@ -298,7 +298,7 @@ class Retry:
 
         backoff_value = self.backoff_factor * (2 ** (consecutive_errors_len - 1))
         if self.backoff_jitter != 0.0:
-            backoff_value += random.random() * self.backoff_jitter
+            backoff_value += secrets.SystemRandom().random() * self.backoff_jitter
         return float(max(0, min(self.backoff_max, backoff_value)))
 
     def parse_retry_after(self, retry_after: str) -> float:

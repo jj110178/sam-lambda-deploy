@@ -323,7 +323,7 @@ class HTTPHeaderDict(typing.MutableMapping[str, str]):
         new_vals = [key, val]
         # Keep the common case aka no item present as fast as possible
         vals = self._container.setdefault(key_lower, new_vals)
-        if new_vals is not vals:
+        if new_vals != vals:
             # if there are values here, then there is at least the initial
             # key/value pair
             assert len(vals) >= 2

@@ -98,8 +98,7 @@ def mb_encoding_languages(iana_name: str) -> List[str]:
     This function does the correspondence.
     """
     if (
-        iana_name.startswith("shift_")
-        or iana_name.startswith("iso2022_jp")
+        iana_name.startswith(("shift_", "iso2022_jp"))
         or iana_name.startswith("euc_j")
         or iana_name == "cp932"
     ):

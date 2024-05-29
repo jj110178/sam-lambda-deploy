@@ -5,6 +5,7 @@ from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
 
 from .constant import TOO_BIG_SEQUENCE
 from .utils import iana_name, is_multi_byte_encoding, unicode_range
+import math
 
 
 class CharsetMatch:
@@ -55,7 +56,7 @@ class CharsetMatch:
         # Below 1% difference --> Use Coherence
         if chaos_difference < 0.01 and coherence_difference > 0.02:
             # When having a tough decision, use the result that decoded as many multi-byte as possible.
-            if chaos_difference == 0.0 and self.coherence == other.coherence:
+            if math.isclose(chaos_difference, 0.0, rel_tol=1e-09, abs_tol=0.0) and self.coherence == other.coherence:
                 return self.multi_byte_usage > other.multi_byte_usage
             return self.coherence > other.coherence
 

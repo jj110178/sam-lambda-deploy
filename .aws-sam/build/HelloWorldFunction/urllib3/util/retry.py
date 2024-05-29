@@ -19,6 +19,7 @@ from ..exceptions import (
     ResponseError,
 )
 from .util import reraise
+import math
 
 if typing.TYPE_CHECKING:
     from ..connectionpool import ConnectionPool
@@ -297,7 +298,7 @@ class Retry:
             return 0
 
         backoff_value = self.backoff_factor * (2 ** (consecutive_errors_len - 1))
-        if self.backoff_jitter != 0.0:
+        if not math.isclose(self.backoff_jitter, 0.0, rel_tol=1e-09, abs_tol=0.0):
             backoff_value += random.random() * self.backoff_jitter
         return float(max(0, min(self.backoff_max, backoff_value)))
 
